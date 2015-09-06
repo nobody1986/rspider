@@ -1,0 +1,22 @@
+[package]
+name = "spider"
+version = "0.1.0"
+authors = ["nobody1986 <as_star@qq.com>"]
+
+[dependencies.redis]
+git = "https://github.com/mitsuhiko/redis-rs.git"
+
+[dependencies.iron]
+version = "*"
+
+[dependencies.url]
+git = "https://github.com/servo/rust-url"
+
+
+[dependencies]
+hyper = "*"
+htmlstream = "*"
+time="*"
+
+[dependencies.syncbox]
+git = "https://github.com/carllerche/syncbox"
