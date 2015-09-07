@@ -1,5 +1,3 @@
-
-
 pub use hyper::Client;
 pub use hyper::header::Connection;
 pub use redis;
@@ -11,4 +9,3 @@ pub mod Downloader;
 pub mod HtmlParser;
 pub mod MessageQueue;
 pub mod Spider;
-

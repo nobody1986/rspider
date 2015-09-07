@@ -1,9 +1,6 @@
 use std::str;
 use std::string::String;
 use std::collections::hash_map::HashMap;
-
-
-
 pub use hyper::Client;
 pub use hyper::header::Connection;
 use std::io::Read;

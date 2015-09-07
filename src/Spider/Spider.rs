@@ -1,18 +1,10 @@
-
-pub use syncbox::{ThreadPool, Run};
+use syncbox::{ThreadPool, Run};
 use std::sync::Arc;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::mpsc::*;
-
-
-
 use std::str;
 use std::string::String;
 use std::collections::hash_map::HashMap;
-
-
-
-
 use url::{Url, UrlParser,ParseError};
 
 use Spider::MessageQueue;

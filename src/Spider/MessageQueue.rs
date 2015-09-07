@@ -1,6 +1,5 @@
 use redis;
 use redis::{Commands, PipelineCommands, transaction};
-
 use std::str;
 use std::string::String;
 use std::collections::hash_map::HashMap;
