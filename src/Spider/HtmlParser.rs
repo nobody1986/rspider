@@ -1,7 +1,8 @@
 use std::str;
 use std::string::String;
 use std::collections::hash_map::HashMap;
-use htmlstream;
+use select::dom::Dom;
+use select::predicate::*;
 
 pub  struct HtmlParser {
     hrefs: Vec<String>,
@@ -14,7 +15,13 @@ impl HtmlParser{
         let mut hrefs :Vec<String> = Vec::new();
         let mut videos :Vec<String> = Vec::new();
         let mut imgs :Vec<String> = Vec::new();
-        for (pos, tag) in htmlstream::tag_iter(&content) {
+
+        let dom = kuchiki::Html::from_string(&content).parse();
+        for a_match in dom.select("a").unwrap() {
+            let as_node = a_match.as_node();
+            let a_node = as_node.first_child().unwrap();
+            let element = a_node.as_element().unwrap();
+            let href = element.attributes[]
             if tag.name == "a" {
                 for (pos, attr) in htmlstream::attr_iter(&tag.attributes) {
                     if attr.name == "href" {

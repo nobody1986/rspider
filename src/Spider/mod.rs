@@ -3,7 +3,9 @@ pub use hyper::header::Connection;
 pub use redis;
 pub use redis::{Commands, PipelineCommands, transaction};
 pub use syncbox::{ThreadPool, Run};
-pub use htmlstream;
+pub use select::dom::Dom;
+pub use select::predicate::*;
+
 
 pub mod Downloader;
 pub mod HtmlParser;
