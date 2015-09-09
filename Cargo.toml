@@ -6,8 +6,7 @@ authors = ["nobody1986 <as_star@qq.com>"]
 [dependencies.redis]
 git = "https://github.com/mitsuhiko/redis-rs.git"
 
-[dependencies.iron]
-version = "*"
+
 
 [dependencies.url]
 git = "https://github.com/servo/rust-url"
@@ -16,7 +15,7 @@ git = "https://github.com/servo/rust-url"
 [dependencies]
 hyper = "*"
 time="*"
-select = "*"
+htmlstream = "*"
 
 [dependencies.syncbox]
 git = "https://github.com/carllerche/syncbox"

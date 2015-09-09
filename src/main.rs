@@ -2,7 +2,7 @@ extern crate hyper;
 extern crate syncbox;
 extern crate time;
 extern crate url;
-extern crate select;
+extern crate htmlstream;
 extern crate redis;
 
 pub mod Spider;
