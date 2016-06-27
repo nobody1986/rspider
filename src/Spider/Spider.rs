@@ -5,7 +5,7 @@ use std::sync::mpsc::*;
 use std::str;
 use std::string::String;
 use std::collections::hash_map::HashMap;
-use url::{Url, UrlParser,ParseError};
+use url::{Url,Host,ParseError};
 
 use Spider::MessageQueue;
 use Spider::HtmlParser;
@@ -60,12 +60,13 @@ impl Spider{
             return String::from("");
         }
         let seed_parsed = Url::parse(&(self.seed)).unwrap();
-        let mut full_url_string:String = match UrlParser::new().base_url(&seed_parsed).parse(&url) {
-            Ok(u) => u.serialize(),
-            Err(y) => String::from("")
-        };
-       
+        //let mut full_url_string:String = match UrlParser::new().base_url(&seed_parsed).parse(&url) {
+        //    Ok(u) => u.serialize(),
+        //    Err(y) => String::from("")
+        //};
+
         //println!("{:?}", full_url_string);
+        let full_url_string = url.clone();
         if self.isInWhiteList(&mut domain) {
             return full_url_string;
         }
@@ -91,8 +92,8 @@ impl Spider{
                 }
             }
         }
-        
-        
+
+
     }
 
     pub fn run( &mut self)   {

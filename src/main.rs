@@ -15,8 +15,8 @@ use std::collections::hash_map::HashMap;
 
 
 fn main() {
-    let mut s = Spider::Spider::Spider::new(String::from("http://www.oschina.net/"),3);
-    s.addWhieteList(String::from("www.oschina.net"));
-    s.addWhieteList(String::from("oschina.net"));
+    let mut s = Spider::Spider::Spider::new(String::from("http://www.csdn.net/"),3);
+    s.addWhieteList(String::from("www.csdn.net"));
+    s.addWhieteList(String::from("csdn.net"));
     s.run();
 }
