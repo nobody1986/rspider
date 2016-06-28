@@ -18,14 +18,13 @@ impl HtmlParser{
         let mut imgs :Vec<String> = Vec::new();
 
         let document =  Document::from(content);
-        for node in &document.find(Name("a")) {
-            println!("{} ({:?})", node.text(), node.attr("href").unwrap());
+        for node in &document.find(Name("a")).iter() {
             hrefs.push(node.attr("href").unwrap());
         }
-        for node in &document.find(Name("video")) {
+        for node in &document.find(Name("video")).iter() {
             videos.push(node.attr("src").unwrap());
         }
-        for node in &document.find(Name("img")) {
+        for node in &document.find(Name("img")).iter() {
             imgs.push(node.attr("src").unwrap());
         }
         /*

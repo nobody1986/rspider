@@ -9,7 +9,7 @@ use std::collections::hash_map::HashMap;
 
 
 pub struct MessageQueue{
-    conn: Connection
+    con: Connection
 }
 
 impl MessageQueue{
@@ -26,7 +26,7 @@ impl MessageQueue{
             };
             */
             let con = Connection::open_in_memory().unwrap();
-            conn.execute("CREATE TABLE queue (
+            con.execute("CREATE TABLE queue (
                   id              INTEGER PRIMARY KEY,
                   key            TEXT NOT NULL,
                   value            BLOB
@@ -39,10 +39,10 @@ impl MessageQueue{
         if self.url_exists(url) < 0 {
             //let ret:Result<i32,_> =  self.conn.hset("visited",url.clone(),level );
             //let ret:Result<String,_> = self.conn.lpush("url_queue",url.clone());
-            conn.execute("INSERT INTO queue (key, value)
+            self.con.execute("INSERT INTO queue (key, value)
                   VALUES ($1, $2)",
                  &[&"visited", url.clone()]).unwrap();
-            conn.execute("INSERT INTO queue (key, value)
+            self.con.execute("INSERT INTO queue (key, value)
                 VALUES ($1, $2)",
                 &[&"url_queue", url.clone()]).unwrap();
         }
@@ -51,10 +51,11 @@ impl MessageQueue{
     pub fn url_exists (&mut self ,url:  &mut  String) -> i32{
         //let ret:Result<i32,_> = self.conn.hget("visited",url.clone());
         //println!("{:?}",ret );
-        let mut stmt = conn.prepare("SELECT count(1) FROM queue where key=:key").unwrap();
+        let mut stmt = self.con.prepare("SELECT count(1) FROM queue where key=:key").unwrap();
         let mut visited = stmt.query_named(&[(":key", &"visited")]).unwrap();
         let ret:i32 = -1;
-        for row in visited {
+        while let Some(result_row) = visited.next() {
+                let row = try!(result_row);
             //println!("Found person {:?}", person.unwrap());
             if row.get(0) > 0{
                 ret = 1;
@@ -70,19 +71,19 @@ impl MessageQueue{
         //return ret;
     }
 
-    pub fn get_url (&mut self) -> String{
+    pub fn get_url (&mut self) -> String {
 
         /*let url:String = match self.conn.rpop("url_queue"){
             Ok(x) => x,
             Err(_) => "".to_string()
         };
         return url;*/
-        let mut stmt = conn.prepare("SELECT id,value FROM queue where key=:key order by id asc limit 0,1").unwrap();
+        let mut stmt = self.con.prepare("SELECT id,value FROM queue where key=:key order by id asc limit 0,1").unwrap();
         let mut queue = stmt.query_named(&[(":key", &"url_queue")]).unwrap();
-
-        for row in queue {
+        while let Some(result_row) = queue.next() {
+                let row = try!(result_row);
             //println!("Found person {:?}", person.unwrap());
-                conn.execute("delete from queue  where id=$1",
+                self.con.execute("delete from queue  where id=$1",
                      &[&row.get(0)]).unwrap();
                 return row.get(1);
         }
