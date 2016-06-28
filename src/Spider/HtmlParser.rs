@@ -1,7 +1,9 @@
 use std::str;
 use std::string::String;
 use std::collections::hash_map::HashMap;
-use htmlstream;
+use select;
+use select::document::Document;
+use select::predicate::{Attr, Class, Name};
 
 pub  struct HtmlParser {
     hrefs: Vec<String>,
@@ -14,6 +16,19 @@ impl HtmlParser{
         let mut hrefs :Vec<String> = Vec::new();
         let mut videos :Vec<String> = Vec::new();
         let mut imgs :Vec<String> = Vec::new();
+
+        let document =  Document::from(content);
+        for node in &document.find(Name("a")) {
+            println!("{} ({:?})", node.text(), node.attr("href").unwrap());
+            hrefs.push(node.attr("href").unwrap());
+        }
+        for node in &document.find(Name("video")) {
+            videos.push(node.attr("src").unwrap());
+        }
+        for node in &document.find(Name("img")) {
+            imgs.push(node.attr("src").unwrap());
+        }
+        /*
         for (pos, tag) in htmlstream::tag_iter(&content) {
             if tag.name == "a" {
                 for (pos, attr) in htmlstream::attr_iter(&tag.attributes) {
@@ -37,6 +52,7 @@ impl HtmlParser{
                 }
             }
         }
+        */
         return HtmlParser{hrefs:hrefs,videos:videos,imgs:imgs};
     }
 
