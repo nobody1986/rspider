@@ -17,16 +17,19 @@ impl HtmlParser{
         let mut videos :Vec<String> = Vec::new();
         let mut imgs :Vec<String> = Vec::new();
 
-        let document =  Document::from(content);
-        for node in &document.find(Name("a")).iter() {
-            hrefs.push(node.attr("href").unwrap());
+        let document =  Document::from(content.as_str());
+        for node in &document.find(Name("a")).iter()  {
+            println!("{} ()", node.first().unwrap().text());
+            //hrefs.push(node.first().unwrap().attr("href").unwrap());
         }
-        for node in &document.find(Name("video")).iter() {
-            videos.push(node.attr("src").unwrap());
-        }
-        for node in &document.find(Name("img")).iter() {
-            imgs.push(node.attr("src").unwrap());
-        }
+        //for node in &document.find(Name("video")).iter()  {
+            //println!("{} ({:?})", node.text(), node.attr("src").unwrap());
+            //videos.push(node.first().unwrap().attr("src").unwrap());
+        //}
+        //for node in &document.find(Name("img")).iter()  {
+            //println!("{} ({:?})", node.text(), node.attr("src").unwrap());
+            //imgs.push(node.first().unwrap().attr("src").unwrap());
+        //}
         /*
         for (pos, tag) in htmlstream::tag_iter(&content) {
             if tag.name == "a" {

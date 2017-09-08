@@ -1,5 +1,7 @@
+pub use std::io::{self, Write};
+pub use futures::{Future, Stream};
 pub use hyper::Client;
-pub use hyper::header::Connection;
+pub use tokio_core::reactor::Core;
 pub use rusqlite;
 //pub use redis;
 //pub use redis::{Commands, PipelineCommands, transaction};

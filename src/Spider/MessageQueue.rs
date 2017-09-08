@@ -9,7 +9,7 @@ use std::collections::hash_map::HashMap;
 
 
 pub struct MessageQueue{
-    con: Connection
+    conn: Connection
 }
 
 impl MessageQueue{
@@ -39,10 +39,10 @@ impl MessageQueue{
         if self.url_exists(url) < 0 {
             //let ret:Result<i32,_> =  self.conn.hset("visited",url.clone(),level );
             //let ret:Result<String,_> = self.conn.lpush("url_queue",url.clone());
-            self.con.execute("INSERT INTO queue (key, value)
+            self.conn.execute("INSERT INTO queue (key, value)
                   VALUES ($1, $2)",
                  &[&"visited", url.clone()]).unwrap();
-            self.con.execute("INSERT INTO queue (key, value)
+            self.conn.execute("INSERT INTO queue (key, value)
                 VALUES ($1, $2)",
                 &[&"url_queue", url.clone()]).unwrap();
         }
@@ -51,7 +51,7 @@ impl MessageQueue{
     pub fn url_exists (&mut self ,url:  &mut  String) -> i32{
         //let ret:Result<i32,_> = self.conn.hget("visited",url.clone());
         //println!("{:?}",ret );
-        let mut stmt = self.con.prepare("SELECT count(1) FROM queue where key=:key").unwrap();
+        let mut stmt = self.conn.prepare("SELECT count(1) FROM queue where key=:key").unwrap();
         let mut visited = stmt.query_named(&[(":key", &"visited")]).unwrap();
         let ret:i32 = -1;
         while let Some(result_row) = visited.next() {
@@ -78,12 +78,12 @@ impl MessageQueue{
             Err(_) => "".to_string()
         };
         return url;*/
-        let mut stmt = self.con.prepare("SELECT id,value FROM queue where key=:key order by id asc limit 0,1").unwrap();
+        let mut stmt = self.conn.prepare("SELECT id,value FROM queue where key=:key order by id asc limit 0,1").unwrap();
         let mut queue = stmt.query_named(&[(":key", &"url_queue")]).unwrap();
         while let Some(result_row) = queue.next() {
                 let row = try!(result_row);
             //println!("Found person {:?}", person.unwrap());
-                self.con.execute("delete from queue  where id=$1",
+                self.conn.execute("delete from queue  where id=$1",
                      &[&row.get(0)]).unwrap();
                 return row.get(1);
         }
